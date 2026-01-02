@@ -1,6 +1,7 @@
 package com.ergon.task_manager.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,10 @@ public class CommentService {
         comment.setCreatedAt(LocalDateTime.now());
 
         return commentRepository.save(comment);
+    }
+
+    public List<Comment> getCommentsByTaskId(Long task_id) {
+        Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("Task not found"));
+        return task.getComments();
     }
 }

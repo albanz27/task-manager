@@ -2,6 +2,7 @@ package com.ergon.task_manager.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,15 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
+        if (task.getStatus() == null) {
+            task.setStatus(TaskStatus.BACKLOG);
+        }
         return taskRepository.save(task);
+    }
+
+    public Task getTaskById(Long task_id) {
+        return taskRepository.findById(task_id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
     public TaskAssignment assignTask(String user_id, Long task_id) {
@@ -42,6 +51,13 @@ public class TaskService {
         assignment.setWorkedHours(0.0);
 
         return taskAssignmentRepository.save(assignment);
+    }
+
+    public List<Task> getTasksByUser(String username) {
+        return taskRepository.findAll().stream()
+                .filter(task -> task.getAssignments().stream()
+                        .anyMatch(assignment -> assignment.getUser().getUsername().equals(username)))
+                .collect(Collectors.toList());
     }
 
     public double getTotalHoursByTaskId(Long taskId) {

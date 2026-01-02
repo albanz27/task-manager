@@ -24,9 +24,24 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
+    @GetMapping("/{id}")
+    public Task getTaskById(@PathVariable Long task_id) {
+        return taskService.getTaskById(task_id);
+    }
+
+    @GetMapping("user/{username}")
+    public List<Task> getTasksByUser(@PathVariable String username) {
+        return taskService.getTasksByUser(username);
+    }
+
     @GetMapping("/{id}/total-hours")
     public Double getTaskTotalHours(@PathVariable Long taskId) {
         return taskService.getTotalHoursByTaskId(taskId);
+    }
+
+    @GetMapping("/{id}/comments")
+    public List<Comment> getTaskComments(@PathVariable Long task_id) {
+        return commentService.getCommentsByTaskId(task_id);
     }
 
     @PostMapping("/{id}/comments")
