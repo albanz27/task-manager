@@ -1,0 +1,61 @@
+package com.ergon.task_manager.controller;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
+import com.ergon.task_manager.service.*;
+import com.ergon.task_manager.model.*;
+
+@RestController
+@RequestMapping("/api/tasks")
+public class TaskController {
+
+    private final TaskService taskService;
+    private final CommentService commentService;
+
+    public TaskController(TaskService taskService, CommentService commentService) {
+        this.taskService = taskService;
+        this.commentService = commentService;
+    }
+
+    @GetMapping
+    public List<Task> getAllTasks() {
+        return taskService.getAllTasks();
+    }
+
+    @GetMapping("/{id}/total-hours")
+    public Double getTaskTotalHours(@PathVariable Long taskId) {
+        return taskService.getTotalHoursByTaskId(taskId);
+    }
+
+    @PostMapping("/{id}/comments")
+    public Comment postComment(@PathVariable Long task_id,
+            @RequestParam String user_id,
+            @RequestParam String content) {
+        return commentService.addComment(user_id, task_id, content);
+    }
+
+    @PatchMapping("/{id}/status")
+    public Task changeStatus(@PathVariable Long id, @RequestParam TaskStatus newStatus) {
+        return taskService.updateTaskStatus(id, newStatus);
+    }
+
+    @PostMapping("/{id}/add-hours")
+    public TaskAssignment addHours(@PathVariable Long id,
+            @RequestParam String username,
+            @RequestParam Double hours) {
+        return taskService.addHours(id, username, hours);
+    }
+
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        return taskService.createTask(task);
+    }
+
+    @PostMapping("/{id}/assign")
+    public TaskAssignment assignTask(@PathVariable Long task_id, @RequestParam String username) {
+        return taskService.assignTask(username, task_id);
+    }
+
+}
