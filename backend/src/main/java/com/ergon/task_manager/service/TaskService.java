@@ -31,9 +31,13 @@ public class TaskService {
     }
 
     public Task updateTask(Long task_id, Task updatedTask) {
-        updatedTask.setTitle(updatedTask.getTitle());
-        updatedTask.setDescription(updatedTask.getDescription());
-        return taskRepository.save(updatedTask);
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
+        Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("Task not found"));
+        task.setTitle(updatedTask.getTitle());
+        task.setDescription(updatedTask.getDescription());
+        return taskRepository.save(task);
     }
 
     public void deleteTask(Long task_id) {

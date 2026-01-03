@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/api/tasks/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -25,7 +25,7 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public Comment getComment(@RequestParam Long id) {
+    public Comment getComment(@PathVariable Long id) {
         return commentService.getComment(id);
     }
 
