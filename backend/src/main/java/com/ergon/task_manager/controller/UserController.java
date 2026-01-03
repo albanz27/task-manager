@@ -22,12 +22,21 @@ public class UserController {
 
     @GetMapping("{username}")
     public User getUserByUsername(@PathVariable String username) {
+        if (username == null)
+            throw new IllegalArgumentException("Username cannot be null");
+
         return userRepository.findById(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        if (userRepository.existsById(user.getUsername())) {
+        String username = user.getUsername();
+
+        if (username == null) {
+            throw new IllegalArgumentException("Username cannot be null");
+        }
+
+        if (userRepository.existsById(username)) {
             throw new RuntimeException("Username already exsists");
         }
 
@@ -40,6 +49,9 @@ public class UserController {
 
     @PutMapping("/{username}")
     public User updateUser(@PathVariable String username, @RequestBody User updatedUser) {
+        if (username == null) {
+            throw new IllegalArgumentException("Username cannot be null");
+        }
         User user = userRepository.findById(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -56,6 +68,9 @@ public class UserController {
 
     @DeleteMapping("{username}")
     public void deleteUser(@PathVariable String username) {
+        if (username == null) {
+            throw new IllegalArgumentException("Username cannot be null");
+        }
         if (!userRepository.existsById(username)) {
             throw new RuntimeException("User not found");
         }
