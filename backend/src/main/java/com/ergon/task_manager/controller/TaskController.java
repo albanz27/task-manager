@@ -47,13 +47,6 @@ public class TaskController {
         return commentService.getCommentsByTaskId(task_id);
     }
 
-    @PostMapping("/{id}/comments")
-    public Comment postComment(@PathVariable Long task_id,
-            @RequestParam String user_id,
-            @RequestParam String content) {
-        return commentService.addComment(user_id, task_id, content);
-    }
-
     @PatchMapping("/{id}/status")
     public Task changeStatus(@PathVariable Long id, @RequestParam TaskStatus newStatus) {
         return taskService.updateTaskStatus(id, newStatus);

@@ -21,7 +21,10 @@ public class CommentService {
         this.userRepository = userRepository;
     }
 
-    public Comment addComment(String user_id, Long task_id, String content) {
+    public Comment createComment(String user_id, Long task_id, String content) {
+        if (task_id == null || user_id == null) {
+            throw new IllegalArgumentException("task_id or user_id cannot be null");
+        }
         User user = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User not found"));
         Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("Task not found"));
 
@@ -34,7 +37,34 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    public Comment getComment(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id cannot be null");
+        }
+        return commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
+    }
+
+    public Comment updateComment(Long id, String newContent) {
+        if (id == null) {
+            throw new IllegalArgumentException("id cannot be null");
+        }
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
+        ;
+        comment.setContent(newContent);
+        return commentRepository.save(comment);
+    }
+
+    public void deleteComment(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id cannot be null");
+        }
+        commentRepository.deleteById(id);
+    }
+
     public List<Comment> getCommentsByTaskId(Long task_id) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
         Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("Task not found"));
         return task.getComments();
     }
