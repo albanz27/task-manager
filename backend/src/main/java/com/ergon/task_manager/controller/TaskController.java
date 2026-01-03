@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ergon.task_manager.service.*;
 import com.ergon.task_manager.model.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -66,6 +69,16 @@ public class TaskController {
     @PostMapping
     public Task createTask(@RequestBody Task task) {
         return taskService.createTask(task);
+    }
+
+    @PutMapping("/{id}")
+    public Task updateTask(@PathVariable Long task_id, @RequestBody Task task) {
+        return taskService.updateTask(task_id, task);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long task_id) {
+        taskService.deleteTask(task_id);
     }
 
     @PostMapping("/{id}/assign")

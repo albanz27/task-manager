@@ -32,10 +32,4 @@ public class Task {
     @OrderBy("createdAt DESC")
     private List<Comment> comments = new ArrayList<>();
 
-    public Double getTotalWorkedHours() {
-        return assignments.stream()
-                .mapToDouble(TaskAssignment::getWorkedHours)
-                .sum();
-    }
-
 }

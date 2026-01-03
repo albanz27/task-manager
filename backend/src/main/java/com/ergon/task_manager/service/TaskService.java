@@ -30,12 +30,34 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public Task updateTask(Long task_id, Task updatedTask) {
+        updatedTask.setTitle(updatedTask.getTitle());
+        updatedTask.setDescription(updatedTask.getDescription());
+        return taskRepository.save(updatedTask);
+    }
+
+    public void deleteTask(Long task_id) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
+        taskRepository.deleteById(task_id);
+    }
+
     public Task getTaskById(Long task_id) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
         return taskRepository.findById(task_id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
     public TaskAssignment assignTask(String user_id, Long task_id) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
+        if (user_id == null) {
+            throw new IllegalArgumentException("user_id cannot be null");
+        }
         Task task = taskRepository.findById(task_id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
         User user = userRepository.findById(user_id)
@@ -60,8 +82,11 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    public double getTotalHoursByTaskId(Long taskId) {
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("task not found"));
+    public double getTotalHoursByTaskId(Long task_id) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
+        Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("task not found"));
 
         return task.getAssignments().stream()
                 .mapToDouble(TaskAssignment::getWorkedHours)
@@ -69,6 +94,9 @@ public class TaskService {
     }
 
     public Task updateTaskStatus(Long task_id, TaskStatus status) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
         Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("task not found"));
         task.setStatus(status);
         return taskRepository.save(task);
