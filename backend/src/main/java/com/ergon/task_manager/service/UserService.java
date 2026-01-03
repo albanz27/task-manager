@@ -2,9 +2,12 @@ package com.ergon.task_manager.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ergon.task_manager.model.User;
 import com.ergon.task_manager.repository.UserRepository;
 
+@Service
 public class UserService {
     private final UserRepository userRepository;
 
