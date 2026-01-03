@@ -22,6 +22,12 @@ public class TaskController {
         this.commentService = commentService;
     }
 
+    // CRUD TASKS
+    @PostMapping
+    public Task createTask(@RequestBody Task task, @RequestParam String createdBy) {
+        return taskService.createTask(task, createdBy);
+    }
+
     @GetMapping
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
@@ -32,6 +38,17 @@ public class TaskController {
         return taskService.getTaskById(task_id);
     }
 
+    @PutMapping("/{task_id}")
+    public Task updateTask(@PathVariable Long task_id, @RequestBody Task task) {
+        return taskService.updateTask(task_id, task);
+    }
+
+    @DeleteMapping("/{task_id}")
+    public void deleteTask(@PathVariable Long task_id) {
+        taskService.deleteTask(task_id);
+    }
+
+    // TODO
     @GetMapping("/{username}/username")
     public List<Task> getTasksByUser(@PathVariable String username) {
         return taskService.getTasksByUser(username);
@@ -57,21 +74,6 @@ public class TaskController {
             @RequestParam String username,
             @RequestParam Double hours) {
         return taskService.addHours(id, username, hours);
-    }
-
-    @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
-    }
-
-    @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long task_id, @RequestBody Task task) {
-        return taskService.updateTask(task_id, task);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long task_id) {
-        taskService.deleteTask(task_id);
     }
 
     @PostMapping("/{id}/assign")

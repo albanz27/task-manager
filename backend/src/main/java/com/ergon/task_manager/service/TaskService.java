@@ -23,10 +23,20 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-    public Task createTask(Task task) {
+    public Task createTask(Task task, String username) {
         if (task.getStatus() == null) {
             task.setStatus(TaskStatus.BACKLOG);
         }
+
+        TaskAssignmentId assignmentId = new TaskAssignmentId(task.getId(), username);
+        TaskAssignment assignment = new TaskAssignment();
+        assignment.setId(assignmentId);
+        assignment.setTask(task);
+        assignment.setUser(userRepository.findById(username).orElseThrow(() -> new RuntimeException("User not found")));
+        assignment.setWorkedHours(0.0);
+        assignment.setAssignmentDate(LocalDateTime.now());
+        taskAssignmentRepository.save(assignment);
+
         return taskRepository.save(task);
     }
 
