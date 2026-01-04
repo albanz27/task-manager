@@ -23,21 +23,25 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-    public Task createTask(Task task, String username) {
+    public Task createTask(Task task, String createdBy) {
+        User creator = userRepository.findById(createdBy).orElseThrow(() -> new RuntimeException("User not found"));
+
         if (task.getStatus() == null) {
             task.setStatus(TaskStatus.BACKLOG);
         }
 
-        TaskAssignmentId assignmentId = new TaskAssignmentId(task.getId(), username);
+        Task savedTask = taskRepository.save(task);
+
+        TaskAssignmentId assignmentId = new TaskAssignmentId(savedTask.getId(), createdBy);
         TaskAssignment assignment = new TaskAssignment();
         assignment.setId(assignmentId);
-        assignment.setTask(task);
-        assignment.setUser(userRepository.findById(username).orElseThrow(() -> new RuntimeException("User not found")));
-        assignment.setWorkedHours(0.0);
+        assignment.setTask(savedTask);
+        assignment.setUser(creator);
         assignment.setAssignmentDate(LocalDateTime.now());
+        assignment.setWorkedHours(0.0);
         taskAssignmentRepository.save(assignment);
 
-        return taskRepository.save(task);
+        return taskRepository.findById(savedTask.getId()).orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
     public Task updateTask(Long task_id, Task updatedTask) {

@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.ergon.task_manager.service.*;
 import com.ergon.task_manager.model.*;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -49,7 +46,7 @@ public class TaskController {
     }
 
     // TODO
-    @GetMapping("/{username}/username")
+    @GetMapping("/user/{username}")
     public List<Task> getTasksByUser(@PathVariable String username) {
         return taskService.getTasksByUser(username);
     }
