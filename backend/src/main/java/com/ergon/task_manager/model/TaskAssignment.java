@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "task_assignments")
 @Getter
@@ -17,13 +15,11 @@ public class TaskAssignment {
     @EmbeddedId
     private TaskAssignmentId id;
 
-    @JsonIgnore
     @ManyToOne
     @MapsId("task_id")
     @JoinColumn(name = "task_id")
     private Task task;
 
-    @JsonIgnore
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id")

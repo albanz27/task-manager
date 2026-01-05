@@ -24,14 +24,15 @@ public class TaskService {
     }
 
     public Task createTask(Task task, String createdBy) {
-        User creator = userRepository.findById(createdBy).orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (task.getStatus() == null) {
-            task.setStatus(TaskStatus.BACKLOG);
+        if (createdBy == null) {
+            throw new IllegalArgumentException("createdBy cannot be null");
+        }
+        if (task == null) {
+            throw new IllegalArgumentException("task cannot be null");
         }
 
+        User creator = userRepository.findById(createdBy).orElseThrow(() -> new RuntimeException("User not found: "));
         Task savedTask = taskRepository.save(task);
-
         TaskAssignmentId assignmentId = new TaskAssignmentId(savedTask.getId(), createdBy);
         TaskAssignment assignment = new TaskAssignment();
         assignment.setId(assignmentId);
@@ -41,14 +42,31 @@ public class TaskService {
         assignment.setWorkedHours(0.0);
         taskAssignmentRepository.save(assignment);
 
-        return taskRepository.findById(savedTask.getId()).orElseThrow(() -> new RuntimeException("Task not found"));
+        Long savedTaskId = savedTask.getId();
+        if (savedTaskId == null) {
+            throw new IllegalStateException("task_id is null");
+        }
+        return taskRepository.findById(savedTaskId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
+
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
+    public Task getTaskById(Long task_id) {
+        if (task_id == null) {
+            throw new IllegalArgumentException("task_id cannot be null");
+        }
+        return taskRepository.findById(task_id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
     public Task updateTask(Long task_id, Task updatedTask) {
         if (task_id == null) {
             throw new IllegalArgumentException("task_id cannot be null");
         }
-        Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = getTaskById(task_id);
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
         return taskRepository.save(task);
@@ -61,27 +79,19 @@ public class TaskService {
         taskRepository.deleteById(task_id);
     }
 
-    public Task getTaskById(Long task_id) {
-        if (task_id == null) {
-            throw new IllegalArgumentException("task_id cannot be null");
-        }
-        return taskRepository.findById(task_id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
-    }
-
     public TaskAssignment assignTask(String user_id, Long task_id) {
-        if (task_id == null) {
-            throw new IllegalArgumentException("task_id cannot be null");
-        }
         if (user_id == null) {
             throw new IllegalArgumentException("user_id cannot be null");
         }
-        Task task = taskRepository.findById(task_id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = getTaskById(task_id);
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         TaskAssignmentId id = new TaskAssignmentId(task_id, user_id);
+
+        if (taskAssignmentRepository.existsById(id)) {
+            throw new RuntimeException("User is already assigned to this task");
+        }
 
         TaskAssignment assignment = new TaskAssignment();
         assignment.setId(id);
@@ -91,6 +101,12 @@ public class TaskService {
         assignment.setWorkedHours(0.0);
 
         return taskAssignmentRepository.save(assignment);
+    }
+
+    public Task updateTaskStatus(Long task_id, TaskStatus status) {
+        Task task = getTaskById(task_id);
+        task.setStatus(status);
+        return taskRepository.save(task);
     }
 
     public List<Task> getTasksByUser(String username) {
@@ -111,15 +127,6 @@ public class TaskService {
                 .sum();
     }
 
-    public Task updateTaskStatus(Long task_id, TaskStatus status) {
-        if (task_id == null) {
-            throw new IllegalArgumentException("task_id cannot be null");
-        }
-        Task task = taskRepository.findById(task_id).orElseThrow(() -> new RuntimeException("task not found"));
-        task.setStatus(status);
-        return taskRepository.save(task);
-    }
-
     public TaskAssignment addHours(Long task_id, String username, Double hours) {
         TaskAssignmentId id = new TaskAssignmentId(task_id, username);
         TaskAssignment assignment = taskAssignmentRepository.findById(id)
@@ -127,10 +134,6 @@ public class TaskService {
         assignment.setWorkedHours(assignment.getWorkedHours() + hours);
 
         return taskAssignmentRepository.save(assignment);
-    }
-
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
     }
 
 }
