@@ -10,10 +10,9 @@ import com.ergon.task_manager.service.*;
 
 import jakarta.validation.Valid;
 
-import com.ergon.task_manager.dto.mapper.CommentMapper;
 import com.ergon.task_manager.dto.mapper.TaskMapper;
 import com.ergon.task_manager.dto.request.TaskRequestDTO;
-import com.ergon.task_manager.dto.response.CommentResponseDTO;
+import com.ergon.task_manager.dto.response.TaskAssignmentDTO;
 import com.ergon.task_manager.dto.response.TaskResponseDTO;
 import com.ergon.task_manager.model.*;
 
@@ -22,17 +21,14 @@ import com.ergon.task_manager.model.*;
 public class TaskController {
 
     private final TaskService taskService;
-    private final CommentService commentService;
     private final TaskMapper taskMapper;
-    private final CommentMapper commentMapper;
 
-    public TaskController(TaskService taskService, CommentService commentService, TaskMapper taskMapper,
-            CommentMapper commentMapper) {
+    public TaskController(TaskService taskService, TaskMapper taskMapper) {
         this.taskService = taskService;
-        this.commentService = commentService;
         this.taskMapper = taskMapper;
-        this.commentMapper = commentMapper;
     }
+
+    // CRUD TASK
 
     @PostMapping
     public ResponseEntity<TaskResponseDTO> createTask(@Valid @RequestBody TaskRequestDTO request,
@@ -70,20 +66,31 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/assign")
+    // Assignment
+
+    @PostMapping("/{task_id}/assign")
     public ResponseEntity<TaskResponseDTO> assignTask(@PathVariable Long task_id, @RequestParam String username) {
-        taskService.assignTask(username, task_id);
+        taskService.addAssignment(username, task_id);
         Task updated = taskService.getTaskById(task_id);
         return ResponseEntity.ok(taskMapper.toDTO(updated));
     }
 
-    /*
-     * @GetMapping("/{id}/assign")
-     * public ResponseEntity<List<TaskResponseDTO>> getAssign(@RequestParam String
-     * param) {
-     * return new String();
-     * }
-     */
+    @GetMapping("/{task_id}/assign")
+    public ResponseEntity<TaskAssignmentDTO> getAssignment(@PathVariable Long task_id,
+            @RequestParam String username) {
+        TaskAssignment assignment = taskService.getAssignment(task_id, username);
+        TaskAssignmentDTO dto = taskMapper.toAssignmentDTO(assignment);
+
+        return ResponseEntity.ok(dto);
+
+    }
+
+    @DeleteMapping("/{task_id}/assign")
+    public ResponseEntity<TaskResponseDTO> deleteTaskAssignment(@PathVariable Long task_id,
+            @RequestParam String username) {
+        taskService.deleteAssignment(task_id, username);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/user/{username}")
     public ResponseEntity<List<TaskResponseDTO>> getTasksByUser(@PathVariable String username) {
@@ -92,24 +99,24 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/{id}/total-hours")
-    public ResponseEntity<Double> getTaskTotalHours(@PathVariable("id") Long taskId) {
-        Double total = taskService.getTotalHoursByTaskId(taskId);
+    @GetMapping("/{task_id}/total-hours")
+    public ResponseEntity<Double> getTaskTotalHours(@PathVariable Long task_id) {
+        Double total = taskService.getTotalHoursByTaskId(task_id);
         return ResponseEntity.ok(total);
     }
 
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{task_id}/status")
     public ResponseEntity<TaskResponseDTO> changeStatus(@PathVariable Long task_id,
             @RequestParam TaskStatus newStatus) {
         Task updatedTask = taskService.updateTaskStatus(task_id, newStatus);
         return ResponseEntity.ok(taskMapper.toDTO(updatedTask));
     }
 
-    @PostMapping("/{id}/add-hours")
-    public ResponseEntity<TaskResponseDTO> addHours(@PathVariable Long id, @RequestParam String username,
+    @PostMapping("/{task_id}/add-hours")
+    public ResponseEntity<TaskResponseDTO> addHours(@PathVariable Long task_id, @RequestParam String username,
             @RequestParam Double hours) {
-        taskService.addHours(id, username, hours);
-        Task updatedTask = taskService.getTaskById(id);
+        taskService.addHours(task_id, username, hours);
+        Task updatedTask = taskService.getTaskById(task_id);
         return ResponseEntity.ok(taskMapper.toDTO(updatedTask));
     }
 

@@ -79,7 +79,7 @@ public class TaskService {
         taskRepository.deleteById(task_id);
     }
 
-    public TaskAssignment assignTask(String user_id, Long task_id) {
+    public TaskAssignment addAssignment(String user_id, Long task_id) {
         if (user_id == null) {
             throw new IllegalArgumentException("user_id cannot be null");
         }
@@ -134,6 +134,16 @@ public class TaskService {
         assignment.setWorkedHours(assignment.getWorkedHours() + hours);
 
         return taskAssignmentRepository.save(assignment);
+    }
+
+    public void deleteAssignment(Long task_id, String username) {
+        taskAssignmentRepository.deleteById(new TaskAssignmentId(task_id, username));
+    }
+
+    public TaskAssignment getAssignment(Long task_id, String username) {
+        TaskAssignmentId id = new TaskAssignmentId(task_id, username);
+        return taskAssignmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
     }
 
 }

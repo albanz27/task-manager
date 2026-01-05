@@ -49,7 +49,7 @@ public class TaskMapper {
                 .build();
     }
 
-    private TaskAssignmentDTO toAssignmentDTO(TaskAssignment assignment) {
+    public TaskAssignmentDTO toAssignmentDTO(TaskAssignment assignment) {
         if (assignment == null)
             return null;
         return TaskAssignmentDTO.builder()
