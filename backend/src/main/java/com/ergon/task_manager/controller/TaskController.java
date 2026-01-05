@@ -98,15 +98,6 @@ public class TaskController {
         return ResponseEntity.ok(total);
     }
 
-    @GetMapping("/{task_id}/comments")
-    public ResponseEntity<List<CommentResponseDTO>> getTaskComments(@PathVariable Long task_id) {
-        List<CommentResponseDTO> comments = commentService.getCommentsByTaskId(task_id)
-                .stream()
-                .map(commentMapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(comments);
-    }
-
     @PatchMapping("/{id}/status")
     public ResponseEntity<TaskResponseDTO> changeStatus(@PathVariable Long task_id,
             @RequestParam TaskStatus newStatus) {
