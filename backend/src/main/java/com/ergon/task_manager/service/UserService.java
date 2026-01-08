@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ergon.task_manager.dto.response.UserResponseDTO;
 import com.ergon.task_manager.model.User;
 import com.ergon.task_manager.repository.UserRepository;
 

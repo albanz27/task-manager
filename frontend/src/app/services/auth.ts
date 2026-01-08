@@ -13,6 +13,10 @@ export class AuthService {
     return this.http.post<UserResponseDTO>(`${this.apiUrl}/login`, { username, password });
   }
 
+  register(userData: UserResponseDTO): Observable<UserResponseDTO> {
+    return this.http.post<UserResponseDTO>(`${this.apiUrl}`, userData);
+  }
+
   getLoggedUser(): UserResponseDTO | null {
     const user = localStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;

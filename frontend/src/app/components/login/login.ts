@@ -13,7 +13,6 @@ import { AuthService } from '../../services/auth';
 export class LoginComponent {
   username: string = '';
   password: string = '';
-  isLoading = false;
   errorMessage = '';
 
   constructor(private auth: AuthService, private router: Router, private cdr: ChangeDetectorRef ) {}
@@ -24,7 +23,6 @@ export class LoginComponent {
       return;
     }
 
-    this.isLoading = true;
     const loginData = { u: this.username, p: this.password };
     this.username = '';
     this.password = '';
@@ -32,11 +30,9 @@ export class LoginComponent {
 
     this.auth.login(loginData.u, loginData.p).subscribe({
       next: (user) => {
-        this.isLoading = false;
         this.router.navigate(['/tasks']); 
       },
       error: (err) => {
-      this.isLoading = false;
       this.errorMessage = "Invalid Username or Password .";
       this.username = ''; 
       this.password = '';

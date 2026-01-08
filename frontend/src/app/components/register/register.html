@@ -1,0 +1,77 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow" style="width: 24rem;">
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Sign Up</h2>
+      
+    <form (ngSubmit)="onRegister()">
+        
+        <div class="mb-3">
+          <label class="form-label">Username</label>
+          <input type="text" 
+                 name="username" 
+                 class="form-control" 
+                 [(ngModel)]="username" 
+                 required 
+                 placeholder="Insert username">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Mail</label>
+          <input type="text" 
+                 name="mail" 
+                 class="form-control" 
+                 [(ngModel)]="mail" 
+                 required 
+                 placeholder="Insert mail">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" 
+                 name="password" 
+                 class="form-control" 
+                 [(ngModel)]="password" 
+                 required 
+                 placeholder="Insert password">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" 
+                 name="name" 
+                 class="form-control" 
+                 [(ngModel)]="name" 
+                 required 
+                 placeholder="Insert name">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Surname</label>
+          <input type="text" 
+                 name="surname" 
+                 class="form-control" 
+                 [(ngModel)]="surname" 
+                 required 
+                 placeholder="Insert surname">
+        </div>
+
+        <button type="submit" 
+                class="btn btn-primary w-100 mt-3" >
+                Register
+        </button>
+    </form>
+
+    <div class="text-center mt-3">
+        <span class="small text-muted">already have an account? </span>
+        <a routerLink="/login" class="small text-decoration-none">Back to Login</a>
+    </div>
+
+      @if (errorMessage) {
+        <p class="text-danger mt-3 text-center small">
+          {{ errorMessage }}
+        </p>
+      }
+
+    </div>
+  </div>
+</div>
