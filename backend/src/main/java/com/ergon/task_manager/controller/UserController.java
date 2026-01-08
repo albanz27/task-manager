@@ -3,6 +3,7 @@ package com.ergon.task_manager.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ergon.task_manager.service.UserService;
@@ -57,6 +58,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserRequestDTO dto) {
+        try {
+            User user = userService.authenticate(dto.getUsername(), dto.getPassword());
+            return ResponseEntity.ok(userMapper.toDTO(user));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid credentials");
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ergon.task_manager.dto.response.UserResponseDTO;
 import com.ergon.task_manager.model.User;
 import com.ergon.task_manager.repository.UserRepository;
 
@@ -67,6 +68,15 @@ public class UserService {
             throw new IllegalArgumentException("Username cannot be null");
         }
         userRepository.deleteById(username);
+    }
+
+    public User authenticate(String username, String password) {
+        User user = getUserByUsername(username);
+        if (user.getPassword().equals(password)) {
+            return user;
+        } else {
+            throw new RuntimeException("Password not correct");
+        }
     }
 
 }
