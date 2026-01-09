@@ -1,0 +1,25 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { TaskResponseDTO } from '../models/task.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TaskService {
+  private apiUrl = '/api/tasks';
+
+  constructor(private http: HttpClient) { }
+
+  getTasks(): Observable<TaskResponseDTO[]> {
+    return this.http.get<TaskResponseDTO[]>(this.apiUrl);
+  }
+
+  getTasksByUser(username: string): Observable<TaskResponseDTO[]> {
+    return this.http.get<TaskResponseDTO[]>(`${this.apiUrl}/user/${username}`);
+  }
+
+  updateStatus(id: number, status: string): Observable<TaskResponseDTO> {
+    return this.http.patch<TaskResponseDTO>(`${this.apiUrl}/${id}/status?newStatus=${status}`, {});
+  }
+}

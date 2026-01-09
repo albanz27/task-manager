@@ -30,7 +30,7 @@ export class LoginComponent {
 
     this.auth.login(loginData.u, loginData.p).subscribe({
       next: (user) => {
-        this.router.navigate(['/tasks']); 
+        this.router.navigate(['/tasks/in-progress']); 
       },
       error: (err) => {
       this.errorMessage = "Invalid Username or Password .";
