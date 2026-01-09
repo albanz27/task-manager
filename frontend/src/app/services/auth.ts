@@ -22,11 +22,11 @@ export class AuthService {
   }
 
   register(userData: UserResponseDTO): Observable<UserResponseDTO> {
-    return this.http.post<UserResponseDTO>(`${this.apiUrl}`, userData);
+    return this.http.post<UserResponseDTO>(this.apiUrl, userData);
   }
 
   getLoggedUser(): UserResponseDTO | null {
-    const user = localStorage.getItem('currentUser');
+    const user = sessionStorage.getItem('currentUser');
     console.log('Retrieved user from localStorage:', user);
     return user ? JSON.parse(user) : null;
   }

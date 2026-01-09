@@ -9,7 +9,9 @@ export const routes: Routes = [
     { path: 'login',  component: LoginComponent},
     { path: 'register', component: RegisterComponent},
     { path: 'tasks',  children: [
-        { path: 'in-progress', component: TaskListComponent}
+        { path: 'in-progress', component: TaskListComponent},
+        { path: 'backlog', component: TaskListComponent},
+        { path: 'completed', component: TaskListComponent}
     ]}
     
 ];
