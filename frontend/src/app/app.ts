@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { TaskService } from './services/task';
 import { TaskResponseDTO } from './models/task.model';
 import { RouterOutlet } from "@angular/router";
+import { NavbarComponent } from "./components/navbar/navbar";
 
 @Component({
   selector: 'app-root',
   standalone: true, 
-  imports: [CommonModule, RouterOutlet], 
+  imports: [CommonModule, RouterOutlet, NavbarComponent], 
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
