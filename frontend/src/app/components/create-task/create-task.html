@@ -1,0 +1,26 @@
+<div class="card shadow-sm mb-4 border-top border-4 border-primary" id="card-create-task">
+  <div class="card-body">
+    <h4 class="card-title mb-4"><i class="bi bi-plus-circle me-2"></i>New Activity</h4>
+    
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label small fw-bold">Title</label>
+        <input type="text" formControlName="title" class="form-control" placeholder="Enter task title">
+      </div>
+      
+      <div class="mb-4">
+        <label class="form-label small fw-bold">Description</label>
+        <textarea formControlName="description" class="form-control" rows="5" placeholder="Describe the activity..."></textarea>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" [disabled]="taskForm.invalid" class="btn btn-primary">
+          <i class="bi bi-check-lg me-1"></i> Create Task
+        </button>
+        <button type="button" routerLink="/tasks/backlog" class="btn btn-outline-secondary">
+          Back
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

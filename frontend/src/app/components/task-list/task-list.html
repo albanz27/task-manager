@@ -6,8 +6,9 @@
       } @else {
         Activities
       }
-    </h2>
+    </h2>  
     <span class="badge bg-info text-dark">{{ tasks.length }} Tasks found</span>
+    <button class="btn btn-success shadow-sm" routerLink="/tasks/new">Create Task</button>
   </div>
 
   @if (tasks.length === 0) {

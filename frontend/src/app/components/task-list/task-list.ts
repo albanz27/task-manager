@@ -4,11 +4,12 @@ import { TaskService } from '../../services/task';
 import { AuthService } from '../../services/auth';
 import { TaskResponseDTO } from '../../models/task.model';
 import { ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './task-list.html',
   styleUrls: ['./task-list.css']
 })

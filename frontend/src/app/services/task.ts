@@ -26,4 +26,9 @@ export class TaskService {
   addHours(id: number, username: string, hour: number): Observable<TaskResponseDTO> {
     return this.http.post<TaskResponseDTO>(`${this.apiUrl}/${id}/add-hours?username=${username}&hours=${hour}`, {});  
   }
+
+  createTask(taskData: any, username: string): Observable<TaskResponseDTO> {
+    return this.http.post<TaskResponseDTO>(`${this.apiUrl}?createdBy=${username}`, taskData);
+  }
+  
 }
