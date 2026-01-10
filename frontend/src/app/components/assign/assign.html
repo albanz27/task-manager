@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  @if (task) {
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Manage Assignments for: <strong>{{ task.title }}</strong></h3>
+      <button class="btn btn-secondary btn-sm" routerLink="/tasks/backlog">Back</button>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-light fw-bold text-secondary">Current Assignments</div>
+          <ul class="list-group list-group-flush">
+            @for (assign of task.assignments; track assign.username) {
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ assign.username }}</strong>
+                  @if (assign.username === loggedInUsername) {
+                    <span class="badge bg-info text-dark ms-2">You</span>
+                  }
+                </div>
+                @if (assign.username !== loggedInUsername) {
+                  <button class="btn btn-sm btn-outline-danger" (click)="remove(assign.username)">Remove</button>
+                }
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header bg-light fw-bold text-primary">Available Users</div>
+          <ul class="list-group list-group-flush">
+            @for (user of availableUsers; track user.username) {
+              @if (!isAlreadyAssigned(user.username)) {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ user.username }}
+                  <button class="btn btn-sm btn-primary" (click)="assign(user.username)">Add to Task</button>
+                </li>
+              }
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="text-center mt-5">
+      <p class="mt-2">Task not found</p>
+    </div>
+  }
+</div>

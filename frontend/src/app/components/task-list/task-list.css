@@ -34,3 +34,14 @@
 #nHour {
     width: 70px;
 }
+
+#btn-assign {
+    border-color: #28a745;
+    background-color: white;
+    color: #28a745;
+}
+#btn-assign:hover {
+    background-color: #28a745;
+    color: white;
+    transform: scale(1.05);
+}
