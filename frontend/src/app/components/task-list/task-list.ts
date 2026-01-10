@@ -45,4 +45,26 @@ export class TaskListComponent implements OnInit {
       }
     });
   }
+
+  onChangeState(task: TaskResponseDTO): void {
+    let nextStatus = '';
+
+    if (task.status === 'BACKLOG') {
+      nextStatus = 'IN_PROGRESS';
+    } else if (task.status === 'IN_PROGRESS') {
+      nextStatus = 'COMPLETED';
+    } else if (task.status === 'COMPLETED') {
+      nextStatus = 'IN_PROGRESS'; 
+    }
+
+    if (nextStatus) {
+      this.taskService.updateStatus(task.id, nextStatus).subscribe({
+        next: () => {
+          this.tasks = this.tasks.filter(t => t.id !== task.id);
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('Error updating state:', err)
+      });
+    }
+  }
 }

@@ -12,13 +12,18 @@
 
   @if (tasks.length === 0) {
     <div class="alert alert-light text-center border shadow-sm">
-      No tasks currently in progress. Check the Backlog!
+      No tasks currently.
     </div>
   } @else {
     <div class="row">
       @for (task of tasks; track task.id) {
         <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 shadow-sm border-start border-5 border-info">
+         <div class="card h-100 shadow-sm border-start border-5" 
+          [ngClass]="{
+            'border-warning': task.status === 'BACKLOG',
+            'border-primary': task.status === 'IN_PROGRESS',
+            'border-success': task.status === 'COMPLETED'
+          }">
             <div class="card-body">
               <h5 class="card-title fw-bold">{{ task.title }}</h5>
               <p class="card-text text-muted small">{{ task.description }}</p>
@@ -27,7 +32,9 @@
                 <span class="small">
                   <i class="bi bi-clock"></i> Total worked: <strong>{{ task.totalHours }}h</strong>
                 </span>
+                <button (click)="onChangeState(task)" class="btn btn-sm btn-outline-secondary">Change State</button>
                 <button class="btn btn-sm btn-outline-primary">Add Hours</button>
+                <button class="btn btn-sm btn-outline-primary"> Comment</button>
               </div>
             </div>
           </div>
