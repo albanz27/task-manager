@@ -22,4 +22,8 @@ export class TaskService {
   updateStatus(id: number, status: string): Observable<TaskResponseDTO> {
     return this.http.patch<TaskResponseDTO>(`${this.apiUrl}/${id}/status?newStatus=${status}`, {});
   }
+
+  addHours(id: number, username: string, hour: number): Observable<TaskResponseDTO> {
+    return this.http.post<TaskResponseDTO>(`${this.apiUrl}/${id}/add-hours?username=${username}&hours=${hour}`, {});  
+  }
 }

@@ -1,0 +1,36 @@
+#btn-change-state {
+    border-color: black;
+    background-color: white;
+    color: black;
+}
+#btn-change-state:hover {
+    background-color: black;
+    color: white;
+    transform: scale(1.05);
+}
+
+#btn-comment {
+    border-color: #08a0ff;
+    background-color: white;
+    color: #08a0ff;
+}
+#btn-comment:hover {
+    background-color: #08a0ff;
+    color: white;
+    transform: scale(1.05);
+}
+
+#btn-add-hours {
+    border-color: #70550c;
+    background-color: white;
+    color: #70550c;
+}
+#btn-add-hours:hover {
+    background-color: #70550c;
+    color: white;
+    transform: scale(1.05);
+}
+
+#nHour {
+    width: 70px;
+}

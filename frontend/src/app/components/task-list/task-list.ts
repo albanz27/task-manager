@@ -9,7 +9,8 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-task-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './task-list.html'
+  templateUrl: './task-list.html',
+  styleUrls: ['./task-list.css']
 })
 export class TaskListComponent implements OnInit {
   tasks: TaskResponseDTO[] = [];
@@ -64,6 +65,33 @@ export class TaskListComponent implements OnInit {
           this.cdr.detectChanges();
         },
         error: (err) => console.error('Error updating state:', err)
+      });
+    }
+  }
+
+  onAddHours(task: TaskResponseDTO, hoursValue: string): void {
+    const hours = parseFloat(hoursValue);
+
+    if (isNaN(hours) || hours == 0) {
+      alert("Please enter a positive number of hours.");
+      return;
+    }
+    if (hoursValue.includes('.')) {
+        const decimals = hoursValue.split('.')[1];
+        if (decimals.length > 2) {
+          alert("Please enter a maximum of two decimal places (e.g., 1.25).");
+          return;
+        }
+      }
+
+    const username = this.authService.getLoggedUser()?.username;
+
+    if (username && !isNaN(hours) && hours > 0) {
+      this.taskService.addHours(task.id, username, hours).subscribe({
+        next: (updatedTask) => {
+          task.totalHours = updatedTask.totalHours;
+          this.cdr.detectChanges();
+        }
       });
     }
   }
