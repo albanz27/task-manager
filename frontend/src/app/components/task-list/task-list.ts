@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth';
 import { TaskResponseDTO } from '../../models/task.model';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { CommentService } from '../../services/comment';
+import { CommentResponseDTO } from '../../models/comment.model';
 
 @Component({
   selector: 'app-task-list',
@@ -19,6 +21,7 @@ export class TaskListComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private authService: AuthService,
+    private commentService: CommentService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {}
@@ -30,6 +33,10 @@ export class TaskListComponent implements OnInit {
         this.loadTasks(currentUser.username);
       }
     });
+  }
+
+  isAuthor(commentUsername: string): boolean {
+    return commentUsername === this.authService.getLoggedUser()?.username;
   }
 
   loadTasks(username: string): void {
@@ -96,4 +103,53 @@ export class TaskListComponent implements OnInit {
       });
     }
   }
+
+  visibleComments: { [taskId: number]: boolean } = {};
+
+  toggleComments(task: TaskResponseDTO): void {
+    this.visibleComments[task.id] = !this.visibleComments[task.id];
+
+    if (this.visibleComments[task.id] && (!task.comments || task.comments.length === 0)) {
+      this.commentService.getComments(task.id).subscribe({
+        next: (comments) => {
+          task.comments = comments;
+          this.cdr.detectChanges();
+        }
+      });
+    }
+  }
+
+  onAddComment(task: TaskResponseDTO): void {
+    const content = prompt(`entere a comment for: ${task.title}`);
+    const currentUser = this.authService.getLoggedUser();
+
+    if (content && currentUser) {
+      this.commentService.addComment(task.id, currentUser.username, content).subscribe({
+        next: (newComment) => {
+          if (!task.comments) task.comments = [];
+          task.comments.unshift(newComment);
+          this.cdr.detectChanges();
+        },
+        error: (err) => alert("Error saving comment")
+      });
+    }
+  }
+
+  onDeleteComment(task: TaskResponseDTO, comment: CommentResponseDTO): void {
+    const currentUser = this.authService.getLoggedUser();
+
+    if (currentUser && comment.authorUsername === currentUser.username) {
+      if (confirm('Are you sure to delete this comment?')) {
+        this.commentService.deleteComment(task.id, comment.id).subscribe({
+          next: () => {
+            task.comments = task.comments.filter((c: any) => c.id !== comment.id);
+            this.cdr.markForCheck();
+            this.cdr.detectChanges();
+          },
+          error: (err) => alert("Error during deletion")
+        });
+      }
+    } 
+  }
+
 }

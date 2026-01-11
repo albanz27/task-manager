@@ -45,3 +45,16 @@
     color: white;
     transform: scale(1.05);
 }
+
+#btn-delete-comment {
+    border-color: #dc3545;
+    background-color: white;
+    color: #dc3545;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+}
+#btn-delete-comment:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.05);
+}

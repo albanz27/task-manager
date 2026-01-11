@@ -46,18 +46,51 @@
                 <button (click)="onChangeState(task)" class="btn btn-sm  w-100" id="btn-change-state">
                   Change State
                 </button>
-                <button class="btn btn-sm w-100" id="btn-comment">
-                  Comment
+                
+                <button (click)="toggleComments(task)" class="btn btn-sm btn-outline-info w-100" id="btn-comment">
+                  <i class="bi bi-chat-left-text"></i> 
+                  {{ visibleComments[task.id] ? 'Hide' : 'Comment' }}
                 </button>
-                <button class="btn btn-sm w-100" id="btn-assign" [routerLink]="['/tasks', task.id, 'assign']">
+
+                <button class="btn btn-sm btn-outline-primary w-100" [routerLink]="['/tasks', task.id, 'assign']">
                   Assign
                 </button>
               </div>
-            </div>
-            
-          </div>
-        </div>
-      }
+
+              @if (visibleComments[task.id]) {
+                <div class="mt-3 p-3 bg-light rounded border shadow-inner animate-fade-in">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong class="small text-secondary">Comments</strong>
+                    <button (click)="onAddComment(task)" class="btn btn-xs btn-primary py-0 px-2" style="font-size: 0.75rem;">
+                      + New
+                    </button>
+                  </div>
+
+                  <div class="comment-list" style="max-height: 180px; overflow-y: auto;">
+                    @for (c of task.comments; track c.id) {
+                      <div class="mb-2 p-2 bg-white rounded border-start border-3 border-info shadow-sm position-relative">
+                        <div class="d-flex justify-content-between x-small fw-bold text-dark mb-1">
+                          <span>{{ c.authorUsername }}</span>
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="text-muted" style="font-size: 0.7rem;">{{ c.createdAt | date:'dd/MM HH:mm' }}</span>
+                            
+                              @if (isAuthor(c.authorUsername)) {
+                                <button (click)="onDeleteComment(task, c)" id="btn-delete-comment" type="button" class="btn btn-danger">
+                                  Delete
+                                </button>
+                              }
+                          </div>
+                        </div>
+                        <p class="small mb-0 text-muted" style="line-height: 1.2;">{{ c.content }}</p>
+                      </div>
+                    } @empty {
+                      <p class="text-center x-small text-muted my-2">No comments yet.</p>
+                    }
+                  </div>
+                </div>
+              }
+
+            </div> </div> </div> }
     </div>
   }
 </div>
