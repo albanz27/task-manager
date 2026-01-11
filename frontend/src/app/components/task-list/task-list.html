@@ -33,28 +33,33 @@
                 <span class="small">
                   <i class="bi bi-clock"></i> Total worked: <strong>{{ task.totalHours }}h</strong>
                 </span>
-                <div class="d-flex align-items-center gap-2">
-                  <input type="number" #hoursInput class="form-control form-control-sm" id="nHour" placeholder="Ore" min="0.5">
-                  <button (click)="onAddHours(task, hoursInput.value); hoursInput.value=''" 
-                          class="btn btn-sm" id="btn-add-hours">
-                    Add
-                  </button>
-                </div>
+                @if (task.status !== 'COMPLETED') {
+                  <div class="d-flex align-items-center gap-2 animate-fade-in">
+                    <input type="number" #hoursInput class="form-control form-control-sm" 
+                          style="width: 60px;" placeholder="Ore" min="0.5">
+                    <button (click)="onAddHours(task, hoursInput.value); hoursInput.value=''" 
+                            class="btn btn-sm btn-primary">
+                      Add
+                    </button>
+                  </div>
+                }
               </div>
 
-              <div class="d-flex justify-content-between gap-4">
-                <button (click)="onChangeState(task)" class="btn btn-sm  w-100" id="btn-change-state">
+              <div class="d-flex justify-content-between gap-2">
+                <button (click)="onChangeState(task)" class="btn btn-sm btn-secondary w-100">
                   Change State
                 </button>
                 
-                <button (click)="toggleComments(task)" class="btn btn-sm btn-outline-info w-100" id="btn-comment">
-                  <i class="bi bi-chat-left-text"></i> 
+                <button (click)="toggleComments(task)" class="btn btn-sm btn-outline-info w-100">
                   {{ visibleComments[task.id] ? 'Hide' : 'Comment' }}
                 </button>
 
-                <button class="btn btn-sm btn-outline-primary w-100" [routerLink]="['/tasks', task.id, 'assign']">
-                  Assign
-                </button>
+                @if (task.status !== 'COMPLETED') {
+                  <button class="btn btn-sm btn-outline-primary w-100 animate-fade-in" 
+                          [routerLink]="['/tasks', task.id, 'assign']">
+                    Assign
+                  </button>
+                }
               </div>
 
               @if (visibleComments[task.id]) {
