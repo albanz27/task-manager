@@ -16,8 +16,8 @@ Applicazione per la gestione ed il tracciamento di attività in un team di svilu
 - **Assegnamento**: Sistema che permette a ciascun utente di assegnare un task ad altri utenti. 
 
 ### Sicurezza
-- **AuthGuard**: L'accesso alle pagine senza aver effettuato il login viene bloccato, reindirizzando l'utente automaticamente al Login.
-- **Session**: Una volta chiuso il browser e sucessivamente riaperto richiede nuovamente il Login.
+- **AuthGuard**: L'accesso alle pagine senza aver effettuato il login viene bloccato, reindirizzando automaticamente l'utente al Login.
+- **Session**: La chiusura del browser e la successiva riapertura richiede nuovamente l'inserimento delle credenziali.
 
 ### Testing
 - **Postman**: Tutte le API sono state testate mediante la creazione di collection di request postman.
@@ -40,4 +40,4 @@ Applicazione per la gestione ed il tracciamento di attività in un team di svilu
 ---
 
 ## Popolamento DB
-Il progetto include un file che popola automaticamente all'avvio il database, affichè si possa testare collaudare in modo immediato l'applicazione.
+Il progetto include un file che popola automaticamente all'avvio il database, affichè si possa testare e collaudare in modo immediato l'applicazione.
