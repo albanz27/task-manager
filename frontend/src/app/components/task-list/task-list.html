@@ -7,8 +7,10 @@
         Activities
       }
     </h2>  
-    <span class="badge bg-info text-dark">{{ tasks.length }} Tasks found</span>
-    <button class="btn btn-success shadow-sm" routerLink="/tasks/new">Create Task</button>
+    <div class="d-flex align-items-center gap-3">
+      <span class="badge bg-info text-dark">{{ tasks.length }} Tasks found</span>
+      <button class="btn btn-success shadow-sm" routerLink="/tasks/new">Create Task</button>
+    </div>
   </div>
 
   @if (tasks.length === 0) {
@@ -25,6 +27,11 @@
             'border-primary': task.status === 'IN_PROGRESS',
             'border-success': task.status === 'COMPLETED'
           }">
+          <button (click)="onDeleteTask(task.id)" 
+            class="btn position-absolute top-0 end-0 m-2 p-0" id='btn-delete-task'
+           >
+            delete
+          </button>
             <div class="card-body">
               <h5 class="card-title fw-bold">{{ task.title }}</h5>
               <p class="card-text text-muted small">{{ task.description }}</p>
@@ -33,7 +40,7 @@
                 <span class="small">
                   <i class="bi bi-clock"></i> Total worked: <strong>{{ task.totalHours }}h</strong>
                 </span>
-                @if (task.status !== 'COMPLETED') {
+                @if (task.status !== 'COMPLETED' && task.status !== 'BACKLOG') {
                   <div class="d-flex align-items-center gap-2 animate-fade-in">
                     <input type="number" #hoursInput class="form-control form-control-sm" 
                           style="width: 60px;" placeholder="Ore" min="0.5">

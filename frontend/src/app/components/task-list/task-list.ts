@@ -77,6 +77,17 @@ export class TaskListComponent implements OnInit {
     }
   }
 
+  onDeleteTask(taskId: number): void {
+    if (confirm('Are you sure you want to delete this task?')) {
+      this.taskService.deleteTask(taskId).subscribe({
+        next: () => {
+          this.tasks = this.tasks.filter(t => t.id !== taskId);
+          this.cdr.detectChanges();
+        }
+      });
+    }
+  }
+
   onAddHours(task: TaskResponseDTO, hoursValue: string): void {
     const hours = parseFloat(hoursValue);
 

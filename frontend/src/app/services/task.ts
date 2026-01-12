@@ -8,6 +8,7 @@ import { UserResponseDTO } from '../models/user.model';
   providedIn: 'root'
 })
 export class TaskService {
+
   private apiUrl = '/api/tasks';
 
   constructor(private http: HttpClient) { }
@@ -42,6 +43,10 @@ export class TaskService {
 
   deleteTaskAssignment(username: string, task_id: number): Observable<TaskResponseDTO> {
     return this.http.delete<TaskResponseDTO>(`${this.apiUrl}/${task_id}/assign?username=${username}`,{})
+  }
+
+  deleteTask(taskId: number) {
+    return this.http.delete(`${this.apiUrl}/${taskId}`);
   }
 
 }

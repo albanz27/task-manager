@@ -58,3 +58,17 @@
     color: white;
     transform: scale(1.05);
 }
+
+
+#btn-delete-task {
+    border-color: #dc3545;
+    background-color: white;
+    color: #dc3545;
+    font-size: 1rem;
+    padding: 2px 6px;
+}
+#btn-delete-task:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.05);
+}
