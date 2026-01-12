@@ -1,0 +1,745 @@
+{
+	"info": {
+		"_postman_id": "b08d948e-5a20-4957-b054-c09506f76cf0",
+		"name": "task-manager",
+		"description": "Collection completa per testare tutte le API REST del Task Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. User - CRUD",
+			"item": [
+				{
+					"name": "create user",
+					"id": "e9507217-296a-498a-9a30-bbd42e00a7db",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"alban99\",\r\n    \"mail\": \"alban@esempio.com\",\r\n    \"password\": \"passwordSicura123\",\r\n    \"name\": \"Alban\",\r\n    \"surname\": \"Haka\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users"
+					},
+					"response": []
+				},
+				{
+					"name": "create second user",
+					"id": "7ac645bf-7918-496f-adcf-03b663d4aa02",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"mirko89\",\r\n    \"mail\": \"mirko@esempio.com\",\r\n    \"password\": \"passwordSicura123\",\r\n    \"name\": \"Mirko\",\r\n    \"surname\": \"Alessandrini\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users"
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"id": "54df0d3c-3fc6-4c35-b143-130fcdb307b2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"alban99\",\r\n    \"mail\": \"alban@esempio.com\",\r\n    \"password\": \"passwordSicura123\",\r\n    \"name\": \"Alban\",\r\n    \"surname\": \"Haka\"\r\n}"
+						},
+						"url": "http://localhost:8080/api/users"
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"id": "14f4a350-a223-4f6e-9656-ebfbd8f6f528",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"alban99\",\r\n    \"mail\": \"alban@esempio.com\",\r\n    \"password\": \"passwordSicura123\",\r\n    \"name\": \"Alban\",\r\n    \"surname\": \"Haka\"\r\n}"
+						},
+						"url": "http://localhost:8080/api/users/alban99"
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"id": "09d2dfc3-37e3-46e7-8289-ab6d5b892e08",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bruno\",\r\n    \"surname\": \"Biondi\",\r\n    \"mail\": \"bruno.biondi@esempio.com\",\r\n    \"password\": \"nuovapassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/alban99"
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"id": "4bded699-edb2-4146-896d-fddc7a5283c6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/users/alban99"
+					},
+					"response": []
+				}
+			],
+			"id": "5b70d1a7-b46a-4e6c-bdda-464434a6b7f3"
+		},
+		{
+			"name": "2. Task - CRUD",
+			"item": [
+				{
+					"name": "create task",
+					"id": "5a9df300-2e1c-447f-9b34-da4d48cf5eea",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"task 1\",\r\n    \"description\": \"description task 1\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/tasks?createdBy=alban99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "createdBy",
+									"value": "alban99",
+									"type": "text"
+								}
+							]
+						},
+						"description": "Crea una nuova task. La task parte sempre in stato BACKLOG"
+					},
+					"response": []
+				},
+				{
+					"name": "create second task",
+					"id": "883bc6fb-f925-4bf8-a157-1ed66cfb5634",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"task 2\",\r\n    \"description\": \"description task 2\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/tasks?createdBy=alban99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "createdBy",
+									"value": "alban99"
+								}
+							]
+						},
+						"description": "Crea una nuova task. La task parte sempre in stato BACKLOG"
+					},
+					"response": []
+				},
+				{
+					"name": "get all tasks",
+					"id": "2cb700c6-29c4-4b0f-8e6d-d11655742bf9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks",
+						"description": "Restituisce l'elenco di TUTTE le task presenti nel sistema"
+					},
+					"response": []
+				},
+				{
+					"name": "get task by id",
+					"id": "20553f80-491d-4b87-b25d-e1407f69059d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks/1",
+						"description": "Restituisce i dettagli di una singola task"
+					},
+					"response": []
+				},
+				{
+					"name": "update task",
+					"id": "d5bbb702-e82e-40db-a631-5f5d671d78b3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title updated\",\r\n    \"description\": \"new description updated for task 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks/1"
+					},
+					"response": []
+				},
+				{
+					"name": "delete task",
+					"id": "8e35d1c3-8147-486a-919f-cc72b39dc358",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": "http://localhost:8080/api/tasks/1"
+					},
+					"response": []
+				}
+			],
+			"id": "2fd8f598-44d0-4ac7-beca-6e9647ac1ba8"
+		},
+		{
+			"name": "3. Task - Assignment",
+			"item": [
+				{
+					"name": "add assignment",
+					"id": "8fdc825a-ee27-4d40-a004-74b6ad128419",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/assign?username=mirko89",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "mirko89"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete assignment",
+					"id": "2133ef60-6c74-4f4a-9709-49633f376a4f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/assign?username=mirko89",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "mirko89"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get assignment",
+					"id": "752d113d-90f8-483c-a2bf-b3131886f7be",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/assign?username=alban99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "alban99"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "da268e99-d5fa-4290-afdb-96f3740eac23"
+		},
+		{
+			"name": "4. Task - Change State",
+			"item": [
+				{
+					"name": "BACKLOG → IN_PROGRESS",
+					"id": "743a6568-c00d-4038-86b7-23d097135256",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/3/status?newStatus=IN_PROGRESS",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"3",
+								"status"
+							],
+							"query": [
+								{
+									"key": "newStatus",
+									"value": "IN_PROGRESS"
+								}
+							]
+						},
+						"description": "Sposta una task da BACKLOG a IN_PROGRESS"
+					},
+					"response": []
+				},
+				{
+					"name": "IN_PROGRESS → COMPLETED",
+					"id": "98b7049e-e401-45f8-8bfe-ed1b4025da7b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/status?newStatus=COMPLETED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"status"
+							],
+							"query": [
+								{
+									"key": "newStatus",
+									"value": "COMPLETED"
+								}
+							]
+						},
+						"description": "Completa una task"
+					},
+					"response": []
+				},
+				{
+					"name": "COMPLETED → IN_PROGRESS (riapertura)",
+					"id": "92536bc2-619e-4643-b0b4-01e431a3ec5b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/status?newStatus=IN_PROGRESS",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"status"
+							],
+							"query": [
+								{
+									"key": "newStatus",
+									"value": "IN_PROGRESS"
+								}
+							]
+						},
+						"description": "Riapre una task completata"
+					},
+					"response": []
+				}
+			],
+			"id": "35aa68d6-e16f-4b7e-8b36-2c02d776580d"
+		},
+		{
+			"name": "5. Task - Hours",
+			"item": [
+				{
+					"name": "add hours",
+					"id": "e6a188b0-52dc-4245-bb4b-5013ad6811be",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/add-hours?username=alban99&hours=3.5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"add-hours"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "alban99"
+								},
+								{
+									"key": "hours",
+									"value": "3.5"
+								}
+							]
+						},
+						"description": "Mario Rossi ha lavorato 3.5 ore sulla task 1"
+					},
+					"response": []
+				},
+				{
+					"name": "add hours second user",
+					"id": "4ba2b910-f095-480c-9321-6fb0e49895e5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tasks/1/add-hours?username=mirko89&hours=3.5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tasks",
+								"1",
+								"add-hours"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "mirko89"
+								},
+								{
+									"key": "hours",
+									"value": "3.5"
+								}
+							]
+						},
+						"description": "Mario Rossi ha lavorato 3.5 ore sulla task 1"
+					},
+					"response": []
+				},
+				{
+					"name": "get task total hours",
+					"id": "db182cf2-fa46-4df1-83c8-e8e92518b0bb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks/1/total-hours",
+						"description": "Restituisce il totale delle ore lavorate sulla task (da tutti gli utenti)"
+					},
+					"response": []
+				}
+			],
+			"id": "4ac0a64f-0a95-455b-9a92-630d95f75526"
+		},
+		{
+			"name": "6. Comments",
+			"item": [
+				{
+					"name": "add comment",
+					"id": "8faf4a51-ae6a-490d-8486-6d9c386cd142",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"i have found a bug!!!\",\r\n    \"authorUsername\": \"alban99\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks/1/comments",
+						"description": "Aggiunge un commento alla task"
+					},
+					"response": []
+				},
+				{
+					"name": "add comment second user",
+					"id": "9ee09ac6-cf9b-46c8-876e-09d003db0663",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Good job!\",\r\n    \"authorUsername\": \"mirko89\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks/1/comments",
+						"description": "Aggiunge un commento alla task"
+					},
+					"response": []
+				},
+				{
+					"name": "get all comments",
+					"id": "d206bd86-d705-4c64-8cc9-f9560a8190af",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks/1/comments",
+						"description": "Ottiene tutti i commenti di una task (ordinati dal più recente)"
+					},
+					"response": []
+				},
+				{
+					"name": "get comment",
+					"id": "f0dbef8d-2a2f-457b-a181-554ca9ae912a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/tasks/1/comments",
+						"description": "Ottiene tutti i commenti di una task (ordinati dal più recente)"
+					},
+					"response": []
+				},
+				{
+					"name": "update comment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d007e46-2fd9-4f12-860f-2a97bd50de00",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "c71b2b6a-3290-4350-ba92-42b74eaf7b1c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Bug fixed!!!\",\r\n    \"authorUsername\": \"alban99\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/tasks/1/comments/1"
+					},
+					"response": []
+				},
+				{
+					"name": "delete comment",
+					"id": "7c62202e-3101-477d-8cf7-3580d61fa611",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Bug fixed!!!\",\r\n    \"authorUsername\": \"alban99\" \r\n}"
+						},
+						"url": "http://localhost:8080/api/tasks/1/comments/1"
+					},
+					"response": []
+				}
+			],
+			"id": "375b7b49-a051-4bab-ae56-c92896daa393"
+		}
+	]
+}
